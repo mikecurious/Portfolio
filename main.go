@@ -56,6 +56,7 @@ type PersonalInfo struct {
 	MSLearn       string
 	GCPProfile    string
 	MaritalStatus string
+	Credly        string
 }
 
 type Project struct {
@@ -191,6 +192,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 			Github:     "https://github.com/mikecurious",
 			MSLearn:    "https://learn.microsoft.com/en-us/users/michaelbrian-3822/",
 			GCPProfile: "https://www.cloudskillsboost.google/public_profiles/f9cccded867a41758c75790939f8137e",
+			Credly:     "https://www.credly.com/users/michael-brian.b666de27",
 		},
 		Projects: []Project{
 			{

@@ -79,6 +79,10 @@
                             <i class="fab fa-google"></i>
                             <a href="{{.PersonalInfo.GCPProfile}}" target="_blank">GCP Profile</a>
                         </div>
+                        <div class="info-item">
+                            <i class="fab fa-certificate"></i>
+                            <a href="{{.PersonalInfo.Credly}}" target="_blank">Credly Profile</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -194,23 +198,38 @@
     <!-- Contact Section -->
     <section id="contact">
         <div class="container">
-            <h2>Get in Touch</h2>
-            <form action="/contact" method="post" id="contact-form">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
+            <h2>Let's Connect</h2>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p>Feel free to reach out for collaborations or just a friendly hello</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>{{.PersonalInfo.Email}}</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>{{.PersonalInfo.Phone}}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
-                <button type="submit">Send Message</button>
-            </form>
-            <!-- Success message shown when redirected with success parameter -->
+                <form action="/contact" method="post" id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
             <div id="success-message" style="display: none;">
                 Your message has been sent successfully! I'll get back to you soon.
             </div>
