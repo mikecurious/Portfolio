@@ -181,7 +181,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 			LinkedIn:      "www.linkedin.com/in/micheal-brian-456041215",
 			Github:        "https://github.com/mikecurious",
 			MSLearn:       "MichaelBrian-3822 | Microsoft Learn",
-			GCPProfile:    "https://www.cloudskillsboost.google/public_profiles/f9cccded867a41758c75790939f8137e",
+			GCPProfile:    "https://www.cloudskillsboost.google/public_profiles/f9cccded-867a-4175-8c75-790939f8137e",
 		},
 		Projects: []Project{
 			{
