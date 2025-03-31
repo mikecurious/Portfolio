@@ -103,7 +103,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 			},
 			{
 				Category: "Cloud and DevOps",
-				Items:    []string{"AWS", "Azure", "Google Cloud Platform (GCP)", "Server Pronto", "CI/CD Pipelines", "Infrastructure as Code", "Terraform", "Ansible", "Containerization", "Docker", "Kubernetes"},
+				Items:    []string{"AWS", "Azure", "Google Cloud Platform (GCP)", "Server Pronto", "CI/CD Pipelines", "Infrastructure as Code", "Terraform", "Ansible", "Docker", "Kubernetes"},
 			},
 			{
 				Category: "Network Engineering and Cybersecurity",
@@ -111,7 +111,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 			},
 			{
 				Category: "API Development and Integration",
-				Items:    []string{"RESTful APIs", "Mobile Money Platforms (M-Pesa, MoMo, Airtel Money)", "Payment Gateways", "Financial Integration", "Token-based Authentication"},
+				Items:    []string{"RESTful APIs", "Mobile Money Platforms (M-Pesa, MoMo, Airtel Money)", "Payment Gateways"},
 			},
 		},
 		WorkExperiences: []WorkExperience{
@@ -185,22 +185,40 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 		},
 		Projects: []Project{
 			{
-				Title:       "Cloud Migration Project",
-				Description: "Migrated on-premises infrastructure to AWS cloud, implementing IaC with Terraform and setting up CI/CD pipelines.",
+				Title:       "Roven Capital Web App",
+				Description: "Developed an interactive web application for managing wallets, enabling seamless transactions between cryptocurrencies, fiat currencies, and forex. Implemented real-time transaction processing and comprehensive wallet management features.",
 				ImagePath:   "/static/images/project1.jpg",
-				TechStack:   []string{"AWS", "Terraform", "Jenkins", "Docker"},
+				TechStack:   []string{"React", "API Integration", "Blockchain", "Payment Systems"},
 			},
 			{
-				Title:       "Payment Gateway Integration",
-				Description: "Developed API integrations for various payment systems including M-Pesa and credit card processors using Go and FastAPI.",
+				Title:       "CBK PSP Reporting System",
+				Description: "Developed a system that filters data from a central database and exposes it through API endpoints. The system processes and structures data for efficient dashboard visualization, helping payment service providers meet CBK reporting requirements.",
 				ImagePath:   "/static/images/project2.jpg",
-				TechStack:   []string{"Go", "Python", "FastAPI", "RESTful APIs"},
+				TechStack:   []string{"Go", "API Development", "Data Processing", "Dashboard Integration"},
 			},
 			{
-				Title:       "Network Security Implementation",
-				Description: "Configured secure network architecture with VPNs, firewalls, and implemented ISO 27001 compliance measures.",
+				Title:       "System Monitoring Service",
+				Description: "Developed a monitoring system that runs as a service, continuously querying databases to detect downtime or errors. Implemented real-time alerts via email, SMS, and in-app notifications for immediate issue awareness.",
+				ImagePath:   "/static/images/project2.jpg",
+				TechStack:   []string{"Go", "Database Monitoring", "Alert Systems", "Service Architecture"},
+			},
+			{
+				Title:       "Genio Pago",
+				Description: "An online tech store platform with secure payment processing, supporting both card and mobile payments. Features include a comprehensive product catalog, secure checkout process, and robust payment gateway integration.",
 				ImagePath:   "/static/images/project3.jpg",
-				TechStack:   []string{"Cisco ASA", "VPN", "Firewall", "ISO 27001"},
+				TechStack:   []string{"Frontend Development", "Payment Integration", "E-commerce", "Security"},
+			},
+			{
+				Title:       "Honeypot Security System",
+				Description: "A security monitoring tool designed to detect and track potential cyber threats. Implemented deception technology to lure attackers and gather intelligence on their methods and behaviors.",
+				ImagePath:   "/static/images/project4.jpg",
+				TechStack:   []string{"Cybersecurity", "Network Monitoring", "Threat Detection", "Log Analysis"},
+			},
+			{
+				Title:       "Mam-Laka Payment Service",
+				Description: "A comprehensive payment service provider offering secure and efficient transaction solutions, supporting various payment methods including card and mobile payments, with robust security measures and gateway integrations.",
+				ImagePath:   "/static/images/project5.jpg",
+				TechStack:   []string{"Payment Processing", "API Integration", "Security Protocols", "Transaction Management"},
 			},
 		},
 	}
