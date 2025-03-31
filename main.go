@@ -177,7 +177,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 			Email:         "mikkohbrayoh@gmail.com",
 			Languages:     "English, Swahili",
 			DOB:           "21st July 1998",
-			MaritalStatus: "Married",
+			// MaritalStatus: "Married",
 			LinkedIn:      "www.linkedin.com/in/micheal-brian-456041215",
 			Github:        "https://github.com/mikecurious",
 			MSLearn:       "https://learn.microsoft.com/en-us/users/michaelbrian-3822/",
