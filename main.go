@@ -95,7 +95,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 		Title: "Michael Brian Muthee - DevOps/System Admin",
 		Name:  "Michael Brian Muthee",
 		Role:  "DevOps/System Admin",
-		Bio:   "To leverage my technical expertise in backend development, systems administration, and network engineering to create innovative, efficient, and scalable solutions. I seek a position that will challenge my skills and offer professional growth while contributing to the success and goals of the organization.",
+		Bio:   "I am a DevOps Engineer and Systems Administrator with expertise in backend development, cloud infrastructure, and automation. Skilled in Go, I also have experience managing and contributing to codebases in PHP, React, and Python (FastAPI). My primary responsibilities include optimizing the performance of developers' code, providing client support for our applications, and addressing issues to ensure system reliability. While not specializing in networking, I have successfully configured network devices, hybrid cloud connections, VPNs, VPCs, and VPC peering, enhancing infrastructure performance and security.",
 		Skills: []Skill{
 			{
 				Category: "Programming Languages and Frameworks",
@@ -257,7 +257,7 @@ func handleContact(w http.ResponseWriter, r *http.Request) {
 func sendEmail(form ContactForm) error {
 	// Configure these with your actual email settings
 	from := "mikkohbrayoh@gmail.com"
-	password := "your-password" // Consider using environment variables for this
+	password := "mypasswordisnothere" // Consider using environment variables for this
 	to := "mikkohbrayoh@gmail.com"
 	smtpHost := "smtp.gmail.com"
 	smtpPort := "587"
