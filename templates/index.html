@@ -239,10 +239,36 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; {{.Name}} - 2025</p>
-            <div class="social-links">
-                <a href="https://{{.PersonalInfo.LinkedIn}}" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="{{.PersonalInfo.Github}}" target="_blank"><i class="fab fa-github"></i></a>
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>{{.Name}}</h3>
+                    <p>{{.Role}}</p>
+                </div>
+                <div class="footer-social">
+                    <a href="https://{{.PersonalInfo.LinkedIn}}" target="_blank" class="social-link">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="{{.PersonalInfo.Github}}" target="_blank" class="social-link">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="{{.PersonalInfo.Credly}}" target="_blank" class="social-link">
+                        <i class="fas fa-certificate"></i>
+                        <span>Credly</span>
+                    </a>
+                    <a href="{{.PersonalInfo.MSLearn}}" target="_blank" class="social-link">
+                        <i class="fab fa-microsoft"></i>
+                        <span>Microsoft</span>
+                    </a>
+                    <a href="{{.PersonalInfo.GCPProfile}}" target="_blank" class="social-link">
+                        <i class="fab fa-google"></i>
+                        <span>Google Cloud</span>
+                    </a>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; {{.Name}} - 2025. All rights reserved.</p>
+                </div>
             </div>
         </div>
     </footer>
