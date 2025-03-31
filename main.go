@@ -98,7 +98,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 		Bio:   "I am a DevOps Engineer and Systems Administrator with expertise in backend development, cloud infrastructure, and automation. Skilled in Go, I also have experience managing and contributing to codebases in PHP, React, and Python (FastAPI). My primary responsibilities include optimizing the performance of developers' code, providing client support for our applications, and addressing issues to ensure system reliability. While not specializing in networking, I have successfully configured network devices, hybrid cloud connections, VPNs, VPCs, and VPC peering, enhancing infrastructure performance and security.",
 		Skills: []Skill{
 			{
-				Category: "Programming Languages and Frameworks",
+				Category: "Programming Languages",
 				Items:    []string{"Go (Golang)", "Python (Fast API)", "PHP", "Bash Scripting"},
 			},
 			{
