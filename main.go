@@ -25,6 +25,7 @@ type PageData struct {
 	Education       []Education
 	PersonalInfo    PersonalInfo
 	Projects        []Project
+	Certifications  []Certification
 }
 
 type Skill struct {
@@ -62,6 +63,14 @@ type Project struct {
 	Description string
 	ImagePath   string
 	TechStack   []string
+}
+
+type Certification struct {
+	Name        string
+	Issuer      string
+	Date        string
+	Description string
+	Link        string
 }
 
 func main() {
@@ -219,6 +228,57 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 				Description: "Developed and maintained the corporate website for YET Kenya, showcasing their technological solutions and services. The website features modern design, responsive layout, and integration with various digital platforms to highlight the company's expertise in AI-driven automation, DevOps, and cloud solutions.",
 				ImagePath:   "/static/images/Yetkenya.png",
 				TechStack:   []string{"React", "Frontend Development", "UI/UX Design", "Website Optimization"},
+			},
+		},
+		Certifications: []Certification{
+			{
+				Name:        "Google Cloud Certified Associate Could Engineer",
+				Issuer:      "Google Cloud",
+				Date:        "February 2025",
+				Description: "Comprehensive knowledge of Google Cloud Platform architecture and services.",
+				Link:        "https://www.credly.com/users/michael-brian.b666de27",
+			},
+			{
+				Name:        "Information Systems Security Professional",
+				Issuer:      "Udemy",
+				Date:        "June 2024",
+				Description: "Advanced knowledge in information security principles and practices.",
+				Link:        "",
+			},
+			{
+				Name:        "Amazon Web Services DevOps on AWS",
+				Issuer:      "Amazon Web Services",
+				Date:        "2023",
+				Description: "Expertise in implementing DevOps practices using AWS tools and services.",
+				Link:        "",
+			},
+			{
+				Name:        "Cloud Management",
+				Issuer:      "Alibaba Cloud Academy",
+				Date:        "November 2023",
+				Description: "Proficiency in cloud infrastructure management and optimization.",
+				Link:        "",
+			},
+			{
+				Name:        "DevOps in Cloud",
+				Issuer:      "Alibaba Cloud Academy",
+				Date:        "November 2023",
+				Description: "Expertise in implementing DevOps practices in cloud environments.",
+				Link:        "",
+			},
+			{
+				Name:        "ISO/IEC 27001 Information Security Management",
+				Issuer:      "Udemy",
+				Date:        "May 2024",
+				Description: "Understanding of information security management systems and compliance.",
+				Link:        "",
+			},
+			{
+				Name:        "AWS CLI",
+				Issuer:      "Amazon Web Services",
+				Date:        "2023",
+				Description: "Proficiency in AWS Command Line Interface for infrastructure management.",
+				Link:        "",
 			},
 		},
 	}

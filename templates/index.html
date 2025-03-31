@@ -167,6 +167,30 @@
         </div>
     </section>
 
+    <!-- Certifications Section -->
+    <section id="certifications">
+        <div class="container">
+            <h2>Certifications</h2>
+            <div class="certifications-grid">
+                {{range .Certifications}}
+                <div class="certification-card">
+                    <h3>{{.Name}}</h3>
+                    <div class="certification-info">
+                        <p class="issuer"><i class="fas fa-certificate"></i> {{.Issuer}}</p>
+                        <p class="date"><i class="fas fa-calendar"></i> {{.Date}}</p>
+                    </div>
+                    <p class="description">{{.Description}}</p>
+                    {{if .Link}}
+                    <a href="{{.Link}}" target="_blank" class="verify-link">
+                        <i class="fas fa-external-link-alt"></i> Verify Certificate
+                    </a>
+                    {{end}}
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact">
         <div class="container">
