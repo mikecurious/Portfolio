@@ -99,7 +99,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 		Skills: []Skill{
 			{
 				Category: "Programming Languages and Frameworks",
-				Items:    []string{"Go (Golang)", "Python (Fast API)", "PHP", "Linux/UNIX Systems", "Bash Scripting"},
+				Items:    []string{"Go (Golang)", "Python (Fast API)", "PHP", "Bash Scripting"},
 			},
 			{
 				Category: "Cloud and DevOps",
@@ -173,15 +173,15 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 			},
 		},
 		PersonalInfo: PersonalInfo{
-			Phone:         "+254-758-930-908",
-			Email:         "mikkohbrayoh@gmail.com",
-			Languages:     "English, Swahili",
-			DOB:           "21st July 1998",
+			Phone:     "+254-758-930-908",
+			Email:     "mikkohbrayoh@gmail.com",
+			Languages: "English, Swahili",
+			DOB:       "21st July 1998",
 			// MaritalStatus: "Married",
-			LinkedIn:      "www.linkedin.com/in/micheal-brian-456041215",
-			Github:        "https://github.com/mikecurious",
-			MSLearn:       "https://learn.microsoft.com/en-us/users/michaelbrian-3822/",
-			GCPProfile:    "https://www.cloudskillsboost.google/public_profiles/f9cccded867a41758c75790939f8137e",
+			LinkedIn:   "www.linkedin.com/in/micheal-brian-456041215",
+			Github:     "https://github.com/mikecurious",
+			MSLearn:    "https://learn.microsoft.com/en-us/users/michaelbrian-3822/",
+			GCPProfile: "https://www.cloudskillsboost.google/public_profiles/f9cccded867a41758c75790939f8137e",
 		},
 		Projects: []Project{
 			{
