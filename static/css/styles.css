@@ -450,6 +450,32 @@ timeline-content h4 {
     font-weight: 500;
 }
 
+.more-projects {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background: rgba(52, 152, 219, 0.1);
+    border-radius: 10px;
+}
+
+.more-projects p {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    line-height: 1.6;
+}
+
+.more-projects a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.more-projects a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
 /* Education section */
 #education {
     background-color: #ffffff;
