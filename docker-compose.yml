@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: portfolio-app
+    environment:
+      - VIRTUAL_HOST=portfolio.hudumacitypay.com
+      - VIRTUAL_PORT=8083
+      - LETSENCRYPT_HOST=portfolio.hudumacitypay.com
+      - LETSENCRYPT_EMAIL=mikkohbrayoh@gmail.com
+    expose:
+      - "8083"
+    volumes:
+      - ./static:/app/static
+      - ./templates:/app/templates
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

@@ -78,7 +78,7 @@ func main() {
 	// Configure server
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8083" // Changed default port to 8083
 	}
 
 	// Define file server for static files
