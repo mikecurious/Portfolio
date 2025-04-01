@@ -7,12 +7,14 @@ services:
       dockerfile: Dockerfile
     container_name: portfolio-app
     environment:
-      - VIRTUAL_HOST=portfolio.hudumacitypay.com
+      - VIRTUAL_HOST=michael.brian.hudumacitypay.com
       - VIRTUAL_PORT=8083
-      - LETSENCRYPT_HOST=portfolio.hudumacitypay.com
+      - LETSENCRYPT_HOST=michael.brian.hudumacitypay.com
       - LETSENCRYPT_EMAIL=mikkohbrayoh@gmail.com
     expose:
       - "8083"
+    ports:
+      - "8083:8083"  # Add explicit port mapping
     volumes:
       - ./static:/app/static
       - ./templates:/app/templates
