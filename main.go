@@ -102,10 +102,10 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 
 	// Data from Michael Brian Muthee's CV
 	data := PageData{
-		Title: "Michael Brian Muthee - DevOps/System Admin",
+		Title: "Michael Brian Muthee - Cloud & DevOps Engineer",
 		Name:  "Michael Brian Muthee",
-		Role:  "DevOps/System Admin",
-		Bio:   "I am a DevOps Engineer and Systems Administrator with expertise in backend development, cloud infrastructure, and automation. Skilled in Go, I also have experience managing and contributing to codebases in PHP, React, and Python (FastAPI). My primary responsibilities include optimizing the performance of developers' code, providing client support for our applications, and addressing issues to ensure system reliability. While not specializing in networking, I have successfully configured network devices, hybrid cloud connections, VPNs, VPCs, and VPC peering, enhancing infrastructure performance and security.",
+		Role:  "Cloud & DevOps Engineer",
+		Bio:   "I am a Cloud Infrastructure and DevOps Engineer with hands-on expertise in multi-cloud environments (AWS, Azure, GCP), infrastructure automation, and backend development. I design and maintain CI/CD pipelines, IaC with Terraform and Ansible, and container orchestration with Kubernetes. Proficient in Go, with experience across PHP, React, and Python (FastAPI). I have configured hybrid cloud connections, VPNs, VPCs, and VPC peering, and conduct regular security audits and penetration tests to ensure compliance and system integrity.",
 		Skills: []Skill{
 			{
 				Category: "Programming Languages",
@@ -234,7 +234,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 		},
 		Certifications: []Certification{
 			{
-				Name:        "Google Cloud Certified Associate Could Engineer",
+				Name:        "Google Cloud Certified Associate Cloud Engineer",
 				Issuer:      "Google Cloud",
 				Date:        "February 2025",
 				Description: "Comprehensive knowledge of Google Cloud Platform architecture and services.",
