@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   portfolio:
     build:
@@ -7,9 +5,9 @@ services:
       dockerfile: Dockerfile
     container_name: portfolio-app
     environment:
-      - VIRTUAL_HOST=michael.brian.hudumacitypay.com
+      - VIRTUAL_HOST=michael.brian.dominicatechnologies.com
       - VIRTUAL_PORT=8083
-      - LETSENCRYPT_HOST=michael.brian.hudumacitypay.com
+      - LETSENCRYPT_HOST=michael.brian.dominicatechnologies.com
       - LETSENCRYPT_EMAIL=mikkohbrayoh@gmail.com
     expose:
       - "8083"
