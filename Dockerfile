@@ -1,25 +1,29 @@
-FROM golang:1.21-alpine
+# Stage 1: Build React frontend
+FROM node:20-alpine AS frontend
+RUN apk add --no-cache git
+RUN git clone https://github.com/mikecurious/mikkoh-bytes /frontend
+WORKDIR /frontend
+RUN npm ci
+RUN npm run build
 
-WORKDIR /app
-
-# Copy go mod first
+# Stage 2: Build Go backend
+FROM golang:1.23-alpine AS backend
+WORKDIR /build
 COPY go.mod ./
-
-# Initialize module and download dependencies
 RUN go mod tidy
+COPY main.go .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o portfolio-server .
 
-# Copy the source code
-COPY . .
-
-# Build the application
-RUN go build -o main .
-
-# Expose port 8083
+# Stage 3: Final image
+FROM alpine:3.20
+RUN apk add --no-cache ca-certificates tzdata
+WORKDIR /app
+COPY --from=backend /build/portfolio-server .
+COPY --from=frontend /frontend/dist ./dist
+RUN addgroup -S portfolio && adduser -S portfolio -G portfolio
+RUN chown -R portfolio:portfolio /app
+USER portfolio
 EXPOSE 8083
-
-# Copy static files and templates
-COPY static/ ./static/
-COPY templates/ ./templates/
-
-# Command to run the application
-CMD ["./main"]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+  CMD wget -qO- http://localhost:8083/ || exit 1
+CMD ["./portfolio-server"]

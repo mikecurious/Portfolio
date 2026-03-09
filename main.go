@@ -1,299 +1,77 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"net/smtp"
 	"os"
+	"strings"
 )
 
-type ContactForm struct {
-	Name    string
-	Email   string
-	Message string
-}
-
-type PageData struct {
-	Title           string
-	Name            string
-	Role            string
-	Bio             string
-	Skills          []Skill
-	WorkExperiences []WorkExperience
-	Education       []Education
-	PersonalInfo    PersonalInfo
-	Projects        []Project
-	Certifications  []Certification
-}
-
-type Skill struct {
-	Category string
-	Items    []string
-}
-
-type WorkExperience struct {
-	Company     string
-	Position    string
-	Duration    string
-	Description []string
-}
-
-type Education struct {
-	Institution string
-	Degree      string
-	Duration    string
-}
-
-type PersonalInfo struct {
-	Phone         string
-	Email         string
-	Languages     string
-	DOB           string
-	LinkedIn      string
-	Github        string
-	MSLearn       string
-	GCPProfile    string
-	MaritalStatus string
-	Credly        string
-}
-
-type Project struct {
-	Title       string
-	Description string
-	ImagePath   string
-	TechStack   []string
-}
-
-type Certification struct {
-	Name        string
-	Issuer      string
-	Date        string
-	Description string
-	Link        string
+type ContactRequest struct {
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	Message string `json:"message"`
 }
 
 func main() {
-	// Configure server
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8083" // Changed default port to 8083
+		port = "8083"
 	}
 
-	// Define file server for static files
-	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	mux := http.NewServeMux()
 
-	// Define routes
-	http.HandleFunc("/", handleHome)
-	http.HandleFunc("/contact", handleContact)
+	// Serve React SPA static assets
+	dist := http.Dir("./dist")
+	fileServer := http.FileServer(dist)
 
-	// Start server
+	mux.HandleFunc("/contact", corsMiddleware(handleContact))
+
+	// All other routes: serve from dist/, fall back to index.html for SPA routing
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		path := r.URL.Path
+
+		// Try to serve the file directly
+		f, err := dist.Open(path)
+		if err == nil {
+			f.Close()
+			fileServer.ServeHTTP(w, r)
+			return
+		}
+
+		// Fall back to index.html for client-side routing
+		http.ServeFile(w, r, "./dist/index.html")
+	})
+
 	fmt.Printf("Server starting on port %s...\n", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Fatal(http.ListenAndServe(":"+port, mux))
 }
 
-func handleHome(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		http.NotFound(w, r)
-		return
-	}
+func corsMiddleware(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		origin := r.Header.Get("Origin")
+		allowed := []string{
+			"https://michael.brian.dominicatechnologies.com",
+			"https://a6c27ba7-da19-4a1b-a30a-66b313a19446.lovableproject.com",
+			"https://id-preview--a6c27ba7-da19-4a1b-a30a-66b313a19446.lovable.app",
+		}
+		for _, o := range allowed {
+			if origin == o {
+				w.Header().Set("Access-Control-Allow-Origin", origin)
+				break
+			}
+		}
+		w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-	// Data from Michael Brian Muthee's CV
-	data := PageData{
-		Title: "Michael Brian Muthee - Cloud & DevOps Engineer",
-		Name:  "Michael Brian Muthee",
-		Role:  "Cloud & DevOps Engineer",
-		Bio:   "I am a Cloud Infrastructure and DevOps Engineer with hands-on expertise in multi-cloud environments (AWS, Azure, GCP), infrastructure automation, and backend development. I design and maintain CI/CD pipelines, IaC with Terraform and Ansible, and container orchestration with Kubernetes. Proficient in Go, with experience across PHP, React, and Python (FastAPI). I have configured hybrid cloud connections, VPNs, VPCs, and VPC peering, and conduct regular security audits and penetration tests to ensure compliance and system integrity.",
-		Skills: []Skill{
-			{
-				Category: "Programming Languages",
-				Items:    []string{"Go (Golang)", "Python (Fast API)", "PHP", "Bash Scripting"},
-			},
-			{
-				Category: "Cloud and DevOps",
-				Items:    []string{"AWS", "Azure", "Google Cloud Platform (GCP)", "Server Pronto", "CI/CD Pipelines", "Infrastructure as Code", "Terraform", "Ansible", "Docker", "Kubernetes"},
-			},
-			{
-				Category: "Network Engineering and Cybersecurity",
-				Items:    []string{"Network Segmentation", "Firewall Configuration", "VPN (Cisco ASA)", "SIEM", "Penetration Testing", "ISO 27001", "PCI DSS"},
-			},
-			{
-				Category: "API Development and Integration",
-				Items:    []string{"RESTful APIs", "Mobile Money Platforms (M-Pesa, MoMo, Airtel Money)", "Payment Gateways"},
-			},
-		},
-		WorkExperiences: []WorkExperience{
-			{
-				Company:  "Yet Kenya Limited",
-				Position: "DevOps/System Admin",
-				Duration: "2022 - Present",
-				Description: []string{
-					"Develop and maintain Infrastructure as Code (IaC) scripts using Terraform and Ansible",
-					"Perform system audits on external companies to ensure compliance",
-					"Design and implement CI/CD pipelines to automate build, test, and deployment processes",
-					"Implement monitoring systems using Prometheus and Grafana",
-					"Manage cloud infrastructure on AWS, Azure, and Google Cloud Platform",
-					"Develop and optimize Docker containers with Kubernetes orchestration",
-					"Implement security best practices for infrastructure and networks",
-					"Establish backup and disaster recovery policies",
-					"Conduct regular security audits and penetration tests",
-				},
-			},
-			{
-				Company:  "ANIMAL HEALTH AND INDUSTRY TRAINING INSTITUTE (AHITI KABETE)",
-				Position: "IT Support",
-				Duration: "2020 - 2022",
-				Description: []string{
-					"Provided technical support and IT services",
-					"Maintained computer systems and network infrastructure",
-				},
-			},
-			{
-				Company:  "Comet Designers",
-				Position: "Technical Support/Office Assistant",
-				Duration: "2018 - 2020",
-				Description: []string{
-					"Data Entry",
-					"Computer Troubleshooting",
-					"KVB Indexing",
-					"Customer Service",
-					"Printing and Design",
-					"Record Keeping",
-					"Office Messenger",
-				},
-			},
-		},
-		Education: []Education{
-			{
-				Institution: "Zetech University",
-				Degree:      "Diploma in Information Technology",
-				Duration:    "September 2019 - Present",
-			},
-			{
-				Institution: "Githiga Boys' High School",
-				Degree:      "Secondary Education",
-				Duration:    "January 2014 - November 2017",
-			},
-			{
-				Institution: "Westlands Primary School",
-				Degree:      "Primary Education",
-				Duration:    "January 2005 - October 2013",
-			},
-		},
-		PersonalInfo: PersonalInfo{
-			Phone:     "+254-758-930-908",
-			Email:     "mikkohbrayoh@gmail.com",
-			Languages: "English, Swahili",
-			DOB:       "21st July 1998",
-			// MaritalStatus: "Married",
-			LinkedIn:   "www.linkedin.com/in/micheal-brian-456041215",
-			Github:     "https://github.com/mikecurious",
-			MSLearn:    "https://learn.microsoft.com/en-us/users/michaelbrian-3822/",
-			GCPProfile: "https://www.cloudskillsboost.google/public_profiles/f9cccded867a41758c75790939f8137e",
-			Credly:     "https://www.credly.com/users/michael-brian.b666de27",
-		},
-		Projects: []Project{
-			{
-				Title:       "Roven Capital Web App",
-				Description: "Developed an interactive web application for managing wallets, enabling seamless transactions between cryptocurrencies, fiat currencies, and forex. Implemented real-time transaction processing and comprehensive wallet management features.",
-				ImagePath:   "/static/images/Roven.png",
-				TechStack:   []string{"React", "API Integration", "Blockchain", "Payment Systems"},
-			},
-			{
-				Title:       "CBK PSP Reporting System",
-				Description: "Developed a system that filters data from a central database and exposes it through API endpoints. The system processes and structures data for efficient dashboard visualization, helping payment service providers meet CBK reporting requirements.",
-				ImagePath:   "/static/images/cbk.png",
-				TechStack:   []string{"Go", "API Development", "Data Processing", "Dashboard Integration"},
-			},
-			{
-				Title:       "System Monitoring Service",
-				Description: "Developed a monitoring system that runs as a service, continuously querying databases to detect downtime or errors. Implemented real-time alerts via email, SMS, and in-app notifications for immediate issue awareness.",
-				ImagePath:   "/static/images/Systemalerts.png",
-				TechStack:   []string{"Go", "Database Monitoring", "Alert Systems", "Service Architecture"},
-			},
-			{
-				Title:       "Genio Pago",
-				Description: "An online tech store platform with secure payment processing, supporting both card and mobile payments. Features include a comprehensive product catalog, secure checkout process, and robust payment gateway integration.",
-				ImagePath:   "/static/images/genio-pago.png",
-				TechStack:   []string{"Frontend Development", "Payment Integration", "E-commerce", "Security"},
-			},
-			{
-				Title:       "Honeypot Security System",
-				Description: "A security monitoring tool designed to detect and track potential cyber threats. Implemented deception technology to lure attackers and gather intelligence on their methods and behaviors.",
-				ImagePath:   "/static/images/HoneyPot.png",
-				TechStack:   []string{"Cybersecurity", "Network Monitoring", "Threat Detection", "Log Analysis"},
-			},
-			{
-				Title:       "Yet Kenya Website",
-				Description: "Developed and maintained the corporate website for YET Kenya, showcasing their technological solutions and services. The website features modern design, responsive layout, and integration with various digital platforms to highlight the company's expertise in AI-driven automation, DevOps, and cloud solutions.",
-				ImagePath:   "/static/images/Yetkenya.png",
-				TechStack:   []string{"React", "Frontend Development", "UI/UX Design", "Website Optimization"},
-			},
-		},
-		Certifications: []Certification{
-			{
-				Name:        "Google Cloud Certified Associate Cloud Engineer",
-				Issuer:      "Google Cloud",
-				Date:        "February 2025",
-				Description: "Comprehensive knowledge of Google Cloud Platform architecture and services.",
-				Link:        "https://www.credly.com/users/michael-brian.b666de27",
-			},
-			{
-				Name:        "Information Systems Security Professional",
-				Issuer:      "Udemy",
-				Date:        "June 2024",
-				Description: "Advanced knowledge in information security principles and practices.",
-				Link:        "",
-			},
-			{
-				Name:        "Amazon Web Services DevOps on AWS",
-				Issuer:      "Amazon Web Services",
-				Date:        "2023",
-				Description: "Expertise in implementing DevOps practices using AWS tools and services.",
-				Link:        "",
-			},
-			{
-				Name:        "Cloud Management",
-				Issuer:      "Alibaba Cloud Academy",
-				Date:        "November 2023",
-				Description: "Proficiency in cloud infrastructure management and optimization.",
-				Link:        "",
-			},
-			{
-				Name:        "DevOps in Cloud",
-				Issuer:      "Alibaba Cloud Academy",
-				Date:        "November 2023",
-				Description: "Expertise in implementing DevOps practices in cloud environments.",
-				Link:        "",
-			},
-			{
-				Name:        "ISO/IEC 27001 Information Security Management",
-				Issuer:      "Udemy",
-				Date:        "May 2024",
-				Description: "Understanding of information security management systems and compliance.",
-				Link:        "",
-			},
-			{
-				Name:        "AWS CLI",
-				Issuer:      "Amazon Web Services",
-				Date:        "2023",
-				Description: "Proficiency in AWS Command Line Interface for infrastructure management.",
-				Link:        "",
-			},
-		},
-	}
-
-	tmpl, err := template.ParseFiles("templates/index.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	err = tmpl.Execute(w, data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+		next(w, r)
 	}
 }
 
@@ -303,57 +81,66 @@ func handleContact(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Parse form data
-	err := r.ParseForm()
-	if err != nil {
-		http.Error(w, "Could not parse form", http.StatusBadRequest)
+	var req ContactRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		jsonError(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
 
-	contactForm := ContactForm{
-		Name:    r.FormValue("name"),
-		Email:   r.FormValue("email"),
-		Message: r.FormValue("message"),
-	}
+	req.Name = strings.TrimSpace(req.Name)
+	req.Email = strings.TrimSpace(req.Email)
+	req.Message = strings.TrimSpace(req.Message)
 
-	// Validate form (basic validation)
-	if contactForm.Name == "" || contactForm.Email == "" || contactForm.Message == "" {
-		http.Error(w, "All fields are required", http.StatusBadRequest)
+	if req.Name == "" || req.Email == "" || req.Message == "" {
+		jsonError(w, "All fields are required", http.StatusBadRequest)
+		return
+	}
+	if len(req.Name) > 100 || len(req.Email) > 255 || len(req.Message) > 1000 {
+		jsonError(w, "Input exceeds maximum length", http.StatusBadRequest)
 		return
 	}
 
-	// Send email (you'll need to configure your SMTP settings)
-	err = sendEmail(contactForm)
-	if err != nil {
+	if err := sendEmail(req); err != nil {
 		log.Printf("Error sending email: %v", err)
-		http.Error(w, "Failed to send message", http.StatusInternalServerError)
+		jsonError(w, "Failed to send message", http.StatusInternalServerError)
 		return
 	}
 
-	// Redirect back to home page with success message
-	http.Redirect(w, r, "/?message=success", http.StatusSeeOther)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"message": "Message sent successfully"}) //nolint:errcheck
 }
 
-func sendEmail(form ContactForm) error {
-	// Configure these with your actual email settings
-	from := "mikkohbrayoh@gmail.com"
-	password := "mypasswordisnothere" // Consider using environment variables for this
-	to := "mikkohbrayoh@gmail.com"
-	smtpHost := "smtp.gmail.com"
-	smtpPort := "587"
+func sendEmail(req ContactRequest) error {
+	smtpHost := os.Getenv("SMTP_HOST")
+	smtpPort := os.Getenv("SMTP_PORT")
+	smtpUser := os.Getenv("SMTP_USER")
+	smtpPass := os.Getenv("SMTP_PASSWORD")
+	to := os.Getenv("CONTACT_EMAIL")
 
-	// Compose message
-	subject := "New contact form submission from " + form.Name
-	body := fmt.Sprintf("Name: %s\nEmail: %s\nMessage: %s", form.Name, form.Email, form.Message)
-	message := []byte("To: " + to + "\r\n" +
+	if smtpHost == "" {
+		smtpHost = "smtp.gmail.com"
+	}
+	if smtpPort == "" {
+		smtpPort = "587"
+	}
+	if to == "" {
+		to = smtpUser
+	}
+
+	subject := "Portfolio contact from " + req.Name
+	body := fmt.Sprintf("Name: %s\nEmail: %s\n\n%s", req.Name, req.Email, req.Message)
+	msg := []byte("To: " + to + "\r\n" +
+		"From: " + smtpUser + "\r\n" +
 		"Subject: " + subject + "\r\n" +
-		"\r\n" +
-		body)
+		"\r\n" + body)
 
-	// Authentication
-	auth := smtp.PlainAuth("", from, password, smtpHost)
+	auth := smtp.PlainAuth("", smtpUser, smtpPass, smtpHost)
+	return smtp.SendMail(smtpHost+":"+smtpPort, auth, smtpUser, []string{to}, msg)
+}
 
-	// Send mail
-	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{to}, message)
-	return err
+func jsonError(w http.ResponseWriter, msg string, code int) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+	json.NewEncoder(w).Encode(map[string]string{"error": msg}) //nolint:errcheck
 }
