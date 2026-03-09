@@ -3,6 +3,12 @@ FROM node:20-alpine AS frontend
 RUN apk add --no-cache git
 RUN git clone https://github.com/mikecurious/mikkoh-bytes /frontend
 WORKDIR /frontend
+
+# Replace Lovable favicon with custom MB favicon
+COPY favicon.svg /frontend/public/favicon.svg
+RUN rm -f /frontend/public/favicon.ico && \
+    sed -i 's|<meta name="viewport"|<link rel="icon" href="/favicon.svg" type="image/svg+xml" />\n    <meta name="viewport"|' /frontend/index.html
+
 RUN npm install
 RUN npm run build
 
