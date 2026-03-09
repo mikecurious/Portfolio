@@ -20,8 +20,8 @@ services:
       - "8083:8083"
     restart: unless-stopped
     networks:
-      - proxy
+      - app-network
 
 networks:
-  proxy:
+  app-network:
     external: true
