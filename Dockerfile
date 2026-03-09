@@ -3,7 +3,7 @@ FROM node:20-alpine AS frontend
 RUN apk add --no-cache git
 RUN git clone https://github.com/mikecurious/mikkoh-bytes /frontend
 WORKDIR /frontend
-RUN npm ci
+RUN npm install
 RUN npm run build
 
 # Stage 2: Build Go backend
