@@ -4,7 +4,7 @@ import { Briefcase } from "lucide-react";
 const experiences = [
   {
     company: "Zueron Consulting",
-    role: "IT Consultant",
+    role: "IT Compliance Consultant",
     period: "2025 – Present",
     description: [
       "Provide IT consultancy services to fintech companies, including systems development, infrastructure management, and regulatory compliance advisory",
@@ -15,7 +15,7 @@ const experiences = [
   {
     company: "Roven Capital",
     role: "Systems Architect & Administration",
-    period: "2025 – Present",
+    period: "2023 – 2025",
     description: [
       "Designed and implemented scalable, highly available cloud architectures across AWS, Azure, and GCP, leveraging load balancers, auto-scaling groups, managed databases, and object storage",
       "Administered Linux and Windows server environments, including patch management, performance tuning, storage provisioning, and scheduled maintenance",
