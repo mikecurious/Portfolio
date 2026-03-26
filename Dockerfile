@@ -9,6 +9,9 @@ COPY favicon.svg /frontend/public/favicon.svg
 RUN rm -f /frontend/public/favicon.ico && \
     sed -i 's|<meta name="viewport"|<link rel="icon" href="/favicon.svg" type="image/svg+xml" />\n    <meta name="viewport"|' /frontend/index.html
 
+# Patch work experience with updated content
+COPY patches/Experience.tsx /frontend/src/components/Experience.tsx
+
 RUN npm install
 RUN npm run build
 
